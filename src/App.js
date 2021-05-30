@@ -3,7 +3,6 @@ import './App.css';
 import Amplify, {API,Storage} from 'aws-amplify';
 import { AmplifyAuthenticator, AmplifySignIn, AmplifySignUp, AmplifySignOut } from '@aws-amplify/ui-react';
 import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
-//import awsconfig from './aws-exports';
 import awsconfig from './aws-exports'
 import logo from './logo.svg';
 import Alert from '@material-ui/lab/Alert'
@@ -257,20 +256,20 @@ const AuthStateApp = () => {
               slot="sign-up"
               formFields={[
                   { type: "username",
-                  placeholder: "Your email address"},
+                  placeholder: "Please enter Your email address"},
 
                   { type: "password",
                   placeholder: "At least 8 characteristic"},
 
                   { type: "given_name",
                   label: "Given Name",
-                  placeholder: "Enter your given name",
+                  placeholder: "Please enter your given name",
                   required: true,
                   },
 
                   { type: "family_name",
                   label: "Family name",
-                  placeholder: "Enter your family name",
+                  placeholder: "Please enter your family name",
                   required: true,
                   }
               ]} 
