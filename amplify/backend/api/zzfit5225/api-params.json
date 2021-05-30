@@ -1,0 +1,42 @@
+{
+  "paths": [
+    {
+      "name": "/images",
+      "lambdaFunction": "zzfit52251",
+      "privacy": {
+        "private": true,
+        "auth": [
+          "/POST",
+          "/GET",
+          "/PUT",
+          "/PATCH",
+          "/DELETE"
+        ]
+      },
+      "policyResourceName": "/images"
+    }
+  ],
+  "resourceName": "zzfit5225",
+  "apiName": "zzfit5225",
+  "functionArns": [
+    {
+      "lambdaFunction": "zzfit52251"
+    }
+  ],
+  "privacy": {
+    "auth": 1,
+    "unauth": 0,
+    "authRoleName": "amplify-hyuu-dev-152222-authRole",
+    "unAuthRoleName": "amplify-hyuu-dev-152222-unauthRole"
+  },
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "zzfit52251",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    }
+  ]
+}

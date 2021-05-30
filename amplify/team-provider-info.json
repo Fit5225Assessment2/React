@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-hyuu-dev-152222-authRole",
+      "UnauthRoleArn": "arn:aws:iam::156740784651:role/amplify-hyuu-dev-152222-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::156740784651:role/amplify-hyuu-dev-152222-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-hyuu-dev-152222-deployment",
+      "UnauthRoleName": "amplify-hyuu-dev-152222-unauthRole",
+      "StackName": "amplify-hyuu-dev-152222",
+      "StackId": "arn:aws:cloudformation:us-east-1:156740784651:stack/amplify-hyuu-dev-152222/86330df0-beab-11eb-b8bf-0e0b853fd859",
+      "AmplifyAppId": "d2eloyncyxjiys"
+    },
+    "categories": {
+      "auth": {
+        "hyuu47ec76cc": {}
+      }
+    }
+  }
+}

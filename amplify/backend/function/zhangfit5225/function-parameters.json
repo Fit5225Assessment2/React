@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "api": {
+      "zzfit5225": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

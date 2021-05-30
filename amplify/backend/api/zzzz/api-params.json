@@ -1,0 +1,42 @@
+{
+  "paths": [
+    {
+      "name": "/images",
+      "lambdaFunction": "zzzz",
+      "privacy": {
+        "private": true,
+        "auth": [
+          "/POST",
+          "/GET",
+          "/PUT",
+          "/PATCH",
+          "/DELETE"
+        ]
+      },
+      "policyResourceName": "/images"
+    }
+  ],
+  "resourceName": "zzzz",
+  "apiName": "zzzz",
+  "functionArns": [
+    {
+      "lambdaFunction": "zzzz"
+    }
+  ],
+  "privacy": {
+    "auth": 1,
+    "unauth": 0,
+    "authRoleName": "amplify-hyuu-dev-152222-authRole",
+    "unAuthRoleName": "amplify-hyuu-dev-152222-unauthRole"
+  },
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "zzzz",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    }
+  ]
+}
