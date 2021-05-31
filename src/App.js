@@ -37,7 +37,7 @@ return authState === AuthState.SignedIn && user ? (
             </Switch>
             <Link to='/UploadImages'>Go to Upload Images page</Link><br />
             <Link to='/Queries'>Go to Queries page</Link><br />   
-            <Link to='/ShowAllImamges'>Browser all the images</Link><br />
+            <Link to='/ShowAllImages'>Browser all the images</Link><br />
           </Router>
         </div>
       </header>

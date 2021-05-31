@@ -3,14 +3,15 @@ import Amplify, { API, Storage } from 'aws-amplify';
 import awsconfig from './aws-exports'
 import Alert from '@material-ui/lab/Alert'
 import { AuthState, onAuthUIStateChange } from '@aws-amplify/ui-components';
+import { AmplifyAuthenticator, AmplifySignIn, AmplifySignUp, AmplifySignOut } from '@aws-amplify/ui-react';
 
 Amplify.configure(awsconfig);
 
-function ImageComponent(props){
+const ImageComponent = props => {
     const image = props.image
     const imageStyle = {
-        width: "64px",
-        height: "64px",
+        width: "128px",
+        height: "128px",
     }
     const [tag, setTag] = React.useState('');
     const [showAlert, setShowAlert] = React.useState('');
@@ -21,7 +22,7 @@ function ImageComponent(props){
 
     const addTag = () => {
         const params = { 'etag': image['eTag'], 'tag': tag }
-        API.put('fit5225g20api', '/image', { queryStringParameters: params })
+        API.put('g20fit5225api', '/g20images', { queryStringParameters: params })
             .then(response => {
                 setShowAlert('Add tag' + tag + 'successfully')
             })
@@ -33,7 +34,7 @@ function ImageComponent(props){
     const deleteImageFromDB = () => {
         const params = { etag: image['eTag'] }
 
-        API.del('fit5225g20api', '/image', { queryStringParameters: params })
+        API.del('g20fit5225api', '/g20images', { queryStringParameters: params })
             .then(response => {
                 deleteImageFromS3()
             })
@@ -51,13 +52,14 @@ function ImageComponent(props){
             .catch(err => console.log(err))
     }
 
+
     return (
         <span>
             <div>
                 <img style={{ imageStyle }} src={image['url']} />
                 <label>
                     Add tag:
-                    <input type="text" name="tag" value={tag} onChange={handleTagChange} />
+          <input type="text" name="tag" value={tag} onChange={handleTagChange} />
                     <button onClick={() => addTag()}>Add</button>
                 </label>
                 {showAlert !== '' ? <Alert onClose={() => { setShowAlert('') }}>{showAlert}</Alert> : null}
@@ -67,7 +69,7 @@ function ImageComponent(props){
     )
 }
 
-function ShowAllImamges(){
+const AuthStateApp = () => {
     const [authState, setAuthState] = React.useState();
     const [user, setUser] = React.useState();
 
@@ -101,7 +103,9 @@ function ShowAllImamges(){
             params['tag' + i] = value
         });
 
-        API.get('g20fit5225api', '/Images', {queryStringParameters: params})
+
+        
+        API.get('g20fit5225api', '/g20images', {queryStringParameters: params})
             .then(response => {
                 setETags(response);
 
@@ -135,12 +139,143 @@ function ShowAllImamges(){
             })
     }
 
-    return(
-        <div>
-            <h1>This is the queries page</h1>
-        </div>
-    )
-    
+    const albumContent = () => {
+        switch (albumProgress) {
+            case 'loading':
+                return <h2>Loading Album</h2>
+            case 'loaded':
+                return images.map((each) => {
+                    return (
+                        <ImageComponent key={each['url']} image={each} onDeleteImage={loadImageETag} />
+                    )
+                })
+        }
+
     }
 
-export default ShowAllImamges
+    const searchTag = () => {
+        return (
+            <>
+                <div>
+                    Enter the search tag and split by ','
+                </div>
+                <div>
+                    <input type="text" value={tagStr} onChange={e => setTagStr(e.target.value)} />
+                </div>
+                <div>
+                    current search tag: {tagStr}
+                </div>
+                <div>
+                    <button onClick={loadImageETag}>search</button>
+                </div>
+            </>
+        )
+    }
+
+    // upload image
+    const [uploadProgress, setUploadProgress] = React.useState('getUpload');
+    const [uploadImage, setUploadImage] = React.useState();
+    const [errorMessage, setErrorMessage] = React.useState();
+    const upload = async () => {
+        try {
+            setUploadProgress('uploading')
+            await Storage.put(`${user.username + Date.now()}.jpeg`, uploadImage, { level:'private', contentType: 'image/jpeg' });
+            setUploadProgress('uploadFinish')
+        } catch (error) {
+            console.log('Something wrong', error);
+            setErrorMessage(error.message)
+            setUploadProgress('uploadError')
+        }
+    }
+    const uploadContent = () => {
+        switch (uploadProgress) {
+            case 'getUpload':
+                return (
+                    <>
+                        <input type="file" accept="image/*" onChange={e => setUploadImage(e.target.files[0])} />
+                        <button onClick={upload}>Upload</button>
+                    </>
+                )
+            case 'uploading':
+                return <h2>Uploading</h2>
+            case 'uploadFinish':
+                return (
+                    <>
+                        <div>
+                            upload successfully!!
+              </div>
+                        <input type="file" accept="image/*" onChange={e => setUploadImage(e.target.files[0])} />
+                        <button onClick={upload}>Upload</button>
+                    </>
+                )
+            case 'Error':
+                return (
+                    <>
+                        <div>
+                            Error message = {errorMessage}
+                        </div>
+                        <input type="file" accept="image/*" onChange={e => setUploadImage(e.target.files[0])} />
+                        <button onClick={upload}>Upload</button>
+                    </>
+                )
+
+            default:
+                break;
+        }
+    }
+
+    React.useEffect(() => {
+        if (uploadProgress == 'uploaded') {
+            loadImageETag()
+        }
+
+    }, [uploadProgress])
+
+    return authState === AuthState.SignedIn && user ? (
+        <div className="App">
+                <header className="App-header">
+                    <div>
+                        {searchTag()}
+                    </div>
+                    <div>
+                        {albumContent()}
+                    </div>
+                </header>       
+        </div>
+    ) : (
+            <AmplifyAuthenticator>
+                <AmplifySignUp
+                    slot="sign-up"
+                    formFields={[
+                        {
+                            type: "username",
+                            placeholder: "Your email address"
+                        },
+                        {
+                            type: "password",
+                            placeholder: "At least 8 characteristic"
+                        },
+
+                        {
+                            type: "given_name",
+                            label: "Given Name",
+                            placeholder: "Enter your given name",
+                            required: true,
+                        },
+
+                        {
+                            type: "family_name",
+                            label: "Family name",
+                            placeholder: "Enter your family name",
+                            required: true,
+                        }
+                    ]}
+                />
+                <AmplifySignIn slot="sign-in" usernameAlias="email" />
+            </AmplifyAuthenticator>
+        );
+}
+
+
+
+export default AuthStateApp;
