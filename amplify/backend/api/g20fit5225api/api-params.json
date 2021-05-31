@@ -1,0 +1,42 @@
+{
+  "paths": [
+    {
+      "name": "/g20images",
+      "lambdaFunction": "g20fit5225lambda",
+      "privacy": {
+        "private": true,
+        "auth": [
+          "/POST",
+          "/GET",
+          "/PUT",
+          "/PATCH",
+          "/DELETE"
+        ]
+      },
+      "policyResourceName": "/g20images"
+    }
+  ],
+  "resourceName": "g20fit5225api",
+  "apiName": "g20fit5225api",
+  "functionArns": [
+    {
+      "lambdaFunction": "g20fit5225lambda"
+    }
+  ],
+  "privacy": {
+    "auth": 1,
+    "unauth": 0,
+    "authRoleName": "amplify-fit5225ass2g20-dev-171601-authRole",
+    "unAuthRoleName": "amplify-fit5225ass2g20-dev-171601-unauthRole"
+  },
+  "dependsOn": [
+    {
+      "category": "function",
+      "resourceName": "g20fit5225lambda",
+      "attributes": [
+        "Name",
+        "Arn"
+      ]
+    }
+  ]
+}
