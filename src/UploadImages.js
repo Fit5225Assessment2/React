@@ -1,6 +1,8 @@
 import React from "react"
 import Amplify, {Storage} from 'aws-amplify';
 import awsconfig from './aws-exports'
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
 Amplify.configure(awsconfig);
 
@@ -25,7 +27,9 @@ function UploadShowPage(){
           return (
             <>
               <input type="file" accept="image/*" onChange={e => setUploadImage(e.target.files[0])} />
-              <button onClick={upload}>Upload</button><br />
+              <Button variant="contained" color="primary" component="span">
+                Upload
+              </Button><br />
             </>
           )
         case 'uploading':
@@ -37,7 +41,9 @@ function UploadShowPage(){
                  upload successfully!!
               </div>
               <input type="file" accept="image/*" onChange={e => setUploadImage(e.target.files[0])} />
-              <button onClick={upload}>Upload</button><br />
+              <Button variant="contained" color="primary" component="span">
+                Upload
+              </Button><br />
             </>
           )
         case 'Error' :
@@ -47,7 +53,9 @@ function UploadShowPage(){
                   Error message = {errorMessage}
               </div>
               <input type="file" accept="image/*" onChange={e => setUploadImage(e.target.files[0])} />
-              <button onClick={upload}>Upload</button><br />
+              <Button variant="contained" color="primary" component="span">
+                Upload
+              </Button><br />
             </>
           )
 
